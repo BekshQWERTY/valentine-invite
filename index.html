@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Приглашение на кино 💕</title>
+<style>
+  /* Сброс и базовые стили */
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+  html, body { height: 100%; width: 100%; overflow: hidden; }
+
+  /* Фон с градиентом и анимацией */
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #ffecd2);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #fff;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Контейнер для текста и кнопок */
+  .container {
+    max-width: 400px;
+    padding: 20px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+  }
+
+  h1 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease forwards;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    animation: fadeIn 3s ease forwards;
+  }
+
+  /* Кнопки */
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  button {
+    padding: 12px 25px;
+    font-size: 1em;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+    color: #fff;
+    background: #ff6b81;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    background: #ff4c61;
+  }
+
+  /* Анимация текста */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Мобильная версия */
+  @media (max-width: 500px) {
+    h1 { font-size: 1.5em; }
+    p { font-size: 1em; }
+    button { padding: 10px 20px; font-size: 0.9em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>У меня к тебе важный вопрос 💕</h1>
+  <p>Ты пойдёшь со мной в кино <strong>16 февраля вечером</strong>?</p>
+  <div class="buttons">
+    <button id="yesBtn">Да</button>
+    <button id="noBtn">Нет</button>
+  </div>
+</div>
+
+<script>
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const container = document.querySelector('.container');
+
+  // Логика кнопки "Нет" — убегает по экрану
+  noBtn.addEventListener('mouseenter', () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+  });
+
+  // Логика кнопки "Да" — переход к финальному экрану
+  yesBtn.addEventListener('click', () => {
+    container.innerHTML = `
+      <h1>Ура! 💖</h1>
+      <p>Жду тебя в кино <strong>16 февраля вечером</strong>!<br>
+      <a href="https://go.2gis.com/kQlOh" target="_blank" style="color:#fff;text-decoration:underline;">Место встречи</a></p>
+    `;
+  });
+</script>
+</body>
+</html>
