@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Особенное приглашение 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Анимированный градиентный фон */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                #FF6B9D 0%, 
+                #C44569 25%, 
+                #FEC163 50%, 
+                #FFA07A 75%, 
+                #FF6B9D 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Световые блики */
+        .glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: float 15s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .glow1 {
+            top: -200px;
+            left: -200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            animation-delay: 0s;
+        }
+
+        .glow2 {
+            bottom: -200px;
+            right: -200px;
+            background: radial-gradient(circle, rgba(255,182,193,0.8) 0%, transparent 70%);
+            animation-delay: 7s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        /* Плавающие элементы */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0;
+            animation: riseUp 15s infinite;
+        }
+
+        .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 30%; animation-delay: 5s; }
+        .heart:nth-child(3) { left: 50%; animation-delay: 10s; }
+        .heart:nth-child(4) { left: 70%; animation-delay: 3s; }
+        .heart:nth-child(5) { left: 90%; animation-delay: 8s; }
+
+        @keyframes riseUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Контейнеры экранов */
+        .screen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .content {
+            text-align: center;
+            color: white;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        /* Заголовки */
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInScale 1s ease 0.2s both;
+            line-height: 1.2;
+        }
+
+        .question {
+            font-size: 2rem;
+            margin-bottom: 50px;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInScale 1s ease 0.4s both;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Стили кнопок */
+        .buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInScale 1s ease 0.6s both;
+        }
+
+        button {
+            padding: 22px 55px;
+            font-size: 1.4rem;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        #yesBtn {
+            background: white;
+            color: #FF6B9D;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 5px rgba(255, 255, 255, 0.4);
+        }
+
+        #noBtn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        #noBtn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        /* Основной экран */
+        .invitation-content {
+            animation: fadeInScale 1.2s ease both;
+        }
+
+        .invitation-content h2 {
+            font-size: 4rem;
+            margin-bottom: 50px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            line-height: 1.1;
+        }
+
+        /* Карточки */
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 30px;
+            margin: 30px auto;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 550px;
+        }
+
+        .date-card h3 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .date-card p {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .location-card {
+            transition: all 0.4s ease;
+        }
+
+        .location-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+        }
+
+        .location-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .location-link:hover {
+            transform: scale(1.05);
+        }
+
+        .pin-icon {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .pin-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg);
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50% 50% 50% 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .pin-icon::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: #FF6B9D;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .message {
+            font-size: 1.6rem;
+            line-height: 1.9;
+            margin: 35px 0;
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .message strong {
+            font-weight: 700;
+        }
+
+        .closing {
+            font-size: 2.2rem;
+            margin-top: 50px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; margin-bottom: 30px; }
+            .question { font-size: 1.5rem; margin-bottom: 40px; }
+            button { 
+                padding: 18px 45px;
+                font-size: 1.2rem;
+            }
+            .invitation-content h2 { font-size: 2.8rem; margin-bottom: 35px; }
+            .card { padding: 30px; }
+            .date-card h3 { font-size: 2.2rem; }
+            .date-card p { font-size: 1.3rem; }
+            .location-link { font-size: 1.3rem; }
+            .message { font-size: 1.3rem; }
+            .closing { font-size: 1.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; letter-spacing: -1px; }
+            .question { font-size: 1.3rem; }
+            .buttons { 
+                flex-direction: column;
+                gap: 15px;
+            }
+            button { 
+                width: 100%; 
+                max-width: 300px;
+                padding: 16px 40px;
+                font-size: 1.1rem;
+            }
+            .invitation-content h2 { font-size: 2.2rem; }
+            .card { padding: 25px; }
+            .date-card h3 { font-size: 1.8rem; }
+            .date-card p { font-size: 1.1rem; }
+            .location-link { font-size: 1.2rem; }
+            .message { font-size: 1.2rem; line-height: 1.7; }
+            .closing { font-size: 1.6rem; margin-top: 40px; }
+        }
+
+        /* Конфетти */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Анимированный фон -->
+    <div class="background"></div>
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+
+    <!-- Плавающие сердечки -->
+    <div class="floating-hearts">
+        <div class="heart">💖</div>
+        <div class="heart">💕</div>
+        <div class="heart">💖</div>
+        <div class="heart">💕</div>
+        <div class="heart">💖</div>
+    </div>
+
+    <!-- Начальный экран с вопросом -->
+    <div class="screen active" id="questionScreen">
+        <div class="content">
+            <h1>У меня к тебе<br>важный вопрос</h1>
+            <div class="question">
+                Ты пойдёшь со мной в кино<br>16 февраля вечером?
+            </div>
+            <div class="buttons">
+                <button id="yesBtn">Да</button>
+                <button id="noBtn">Нет</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной экран с приглашением -->
+    <div class="screen" id="invitationScreen">
+        <div class="content invitation-content">
+            <h2>Ура!<br>Я так рад!</h2>
+            
+            <div class="card date-card">
+                <h3>16 февраля</h3>
+                <p>Вечер • Кино • Мы вдвоём</p>
+            </div>
+
+            <div class="card location-card">
+                <a href="https://go.2gis.com/z9hzp" target="_blank" class="location-link">
+                    <span class="pin-icon"></span>
+                    <span>Место встречи</span>
+                </a>
+            </div>
+
+            <div class="message">
+                Это будет <strong>незабываемый вечер!</strong><br>
+                Отличный фильм, попкорн<br>
+                и время вместе
+            </div>
+
+            <div class="message">
+                Я уже считаю дни<br>
+                до нашей встречи
+            </div>
+
+            <div class="closing">
+                С любовью
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionScreen = document.getElementById('questionScreen');
+        const invitationScreen = document.getElementById('invitationScreen');
+
+        // Функция для перемещения кнопки "Нет"
+        function moveNoButton() {
+            const padding = 40;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding * 2;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding * 2;
+            
+            const randomX = Math.max(padding, Math.random() * maxX);
+            const randomY = Math.max(padding, Math.random() * maxY);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        }
+
+        // События для кнопки "Нет"
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+        
+        // Для мобильных устройств
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Клик на кнопку "Да"
+        yesBtn.addEventListener('click', () => {
+            questionScreen.classList.remove('active');
+            invitationScreen.classList.add('active');
+            createConfetti();
+        });
+
+        // Функция создания конфетти
+        function createConfetti() {
+            const colors = ['#FF6B9D', '#FFA07A', '#FFD700', '#FF69B4', '#FFC0CB'];
+            const shapes = ['💖', '💕', '✨', '⭐'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    // Случайный выбор между кружком и эмодзи
+                    if (Math.random() > 0.5) {
+                        confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                        confetti.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    } else {
+                        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        confetti.style.borderRadius = '50%';
+                        confetti.style.width = (Math.random() * 8 + 5) + 'px';
+                        confetti.style.height = confetti.style.width;
+                    }
+                    
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-20px';
+                    confetti.style.opacity = '1';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    const fallDuration = Math.random() * 2 + 3;
+                    const horizontalMovement = (Math.random() - 0.5) * 200;
+                    const rotation = Math.random() * 720 - 360;
+                    
+                    confetti.animate([
+                        { 
+                            transform: 'translateY(0) translateX(0) rotate(0deg)',
+                            opacity: 1
+                        },
+                        { 
+                            transform: `translateY(${window.innerHeight + 100}px) translateX(${horizontalMovement}px) rotate(${rotation}deg)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: fallDuration * 1000,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, fallDuration * 1000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
